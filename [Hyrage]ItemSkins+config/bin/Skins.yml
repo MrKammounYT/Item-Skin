@@ -1,0 +1,11 @@
+skins:
+  InventoryName: 'test'
+  InventorySize: 27
+  fire:
+    type: stone
+    displayname: '&eahmed is the best'
+    appliedlore: '&cahmed was here'
+    skintype: sword
+    IncomingDamagePercentage: 5
+    OutcomingDamagePercentage: 7
+    displayslot: 5
