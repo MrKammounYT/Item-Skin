@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.config.GetSkins;
 import com.kammoun.cmd.is;
+import com.kammoun.listners.ApplySkin;
 import com.kammoun.listners.PlayerHitEvent;
 import com.utils.skins.ItemSkin;
 
@@ -21,11 +22,20 @@ public class main extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		super.onEnable();		
+		saveDefaultConfig();
 		GetSkins gs = new GetSkins();
 		gs.createFile();
 		gs.LoadSkins();
 		getCommand("is").setExecutor(new is());
+		getCommand("itemskin").setExecutor(new is());
 		Bukkit.getPluginManager().registerEvents(new PlayerHitEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new ApplySkin(), this);
+
+	}
+	
+	@Override
+	public void onDisable() {
+		super.onDisable();
 	}
 	
 	public static main getinstance() {

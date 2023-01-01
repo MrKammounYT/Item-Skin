@@ -21,12 +21,18 @@ import com.utils.skins.SkinType;
 
 public class GetSkins {
 	
-	
-	 File file = new File(main.getinstance().getDataFolder(),"Skins.yml");
+	File file = new File(main.getinstance().getDataFolder(),"Skins.yml");
 	FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 	
+	
+	public void reloadFile() {
+		 cfg = YamlConfiguration.loadConfiguration(file);
+	}
+	
 	public void createFile() {
-		if(file.exists())return;
+		if(file.exists()) {
+			return;
+		}
 		try {
 			cfg.save(file);
 		} catch (IOException e) {
@@ -34,21 +40,59 @@ public class GetSkins {
 			e.printStackTrace();
 		}
 	}
+
+	
+	String color(String f) {
+		
+		return ChatColor.translateAlternateColorCodes('&', f);
+	}
+	
+	public Inventory loadInventory() {
+		Inventory inv = Bukkit.createInventory(null, main.getinstance().getConfig().getInt("inventory-size")
+				, ChatColor.translateAlternateColorCodes('&',main.getinstance().getConfig().getString("inventory-name")));
+		for(String keys : main.getinstance().getConfig().getConfigurationSection("items").getKeys(false)) {
+			FileConfiguration cf = main.getinstance().getConfig();
+			String slot = "items."+keys;
+			if(cf.getString(slot+".type") ==null)return inv;
+			int amount =0;
+			int data = 0;
+			if(cf.getInt(slot+".data") != 0) {
+				data = cf.getInt(slot+".data");
+			}
+			if(cf.getInt(slot+".amount") != 0) {
+				amount = cf.getInt(slot+".amount");
+			}
+			
+			ItemStack item = new ItemStack(Material.getMaterial(cf.getString(slot+".type").toUpperCase()),amount,(short)data);
+			ItemMeta meta =item.getItemMeta();
+			if(cf.getString(slot+".displayname") !=null) {
+				meta.setDisplayName(color(cf.getString(slot+".displayname")));
+			}
+			if(cf.getStringList(slot+".lore") !=null) {
+				List<String> newlore = new ArrayList<>();
+				for(String ss : cf.getStringList(slot+".lore")) {
+					newlore.add(color(ss));
+				}
+				meta.setLore(newlore);
+			}
+			item.setItemMeta(meta);
+			inv.setItem(Integer.parseInt(keys), item);
+		}
+		return inv;
+	}
 	
 	public Inventory getSkins() {
 		if(file.exists()) {
 		ConfigurationSection cs = cfg.getConfigurationSection("skins.");
-		Inventory inv = Bukkit.createInventory(null, 27
-				, "ss");
+		Inventory inv = loadInventory();
 		for(String s :cs.getKeys(false)) {
 			String slot = "skins."+s;
 			ItemStack item = new ItemStack(Material.getMaterial(cfg.getString(slot+".type").toUpperCase()));
 			ItemMeta meta = item.getItemMeta();
 			meta.setDisplayName(main.color(cfg.getString(slot+".displayname")));
-			if(cfg.getList(slot+".lore") !=null) {
-				List<String> lore = (List<String>) cfg.getList(slot+".lore");
+			if(cfg.getStringList(slot+".lore") !=null) {
 				List<String> newlore = new ArrayList<>();
-				for(String ss : lore) {
+				for(String ss : cfg.getStringList(slot+".lore")) {
 					newlore.add(ChatColor.translateAlternateColorCodes('&', ss));
 				}
 				meta.setLore(newlore);
@@ -68,10 +112,10 @@ public class GetSkins {
 			Material item = Material.getMaterial(cfg.getString(slot+".type"));
 			String name = cfg.getString(slot+".displayname");
 			String applylore = ChatColor.translateAlternateColorCodes('&',cfg.getString(slot+".appliedlore"));
-			int incomingdamage = cfg.getInt(slot+".IncomingDamagePercentage");
+			int incomingdamage = cfg.getInt(slot+".IncomingDamagePercentageReduced");
 			int outcomingdamage = cfg.getInt(slot+".OutcomingDamagePercentage");
 			SkinType skintype = SkinType.valueOf(cfg.getString(slot+".skintype"));
-			main.getinstance().skins.put(applylore, new ItemSkin(name, item, applylore, incomingdamage, outcomingdamage,skintype));
+			main.getinstance().skins.put(name, new ItemSkin(name, item, applylore, incomingdamage, outcomingdamage,skintype));
 		}
 		}
 	}

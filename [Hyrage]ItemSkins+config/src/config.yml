@@ -1,0 +1,11 @@
+inventory-size: 27
+inventory-name: '&c&lItemSkins'
+items:
+  '0':
+    type: 'diamond'
+    amount: 1
+    data: 0
+    displayname: ' &7'
+    lore:
+    - '&a&nserver.net'
+      

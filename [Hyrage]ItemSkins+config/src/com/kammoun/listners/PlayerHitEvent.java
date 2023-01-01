@@ -29,6 +29,9 @@ public class PlayerHitEvent implements Listener {
 				}
 			}
 		}
+		if(e.getEntity() instanceof Player) {
+			
+		}
 	}
 
 	public boolean is_a_Valid_Sword(Player p) {

@@ -1,11 +1,23 @@
 skins:
-  InventoryName: 'test'
-  InventorySize: 27
   fire:
-    type: stone
-    displayname: '&eahmed is the best'
-    appliedlore: '&cahmed was here'
-    skintype: sword
-    IncomingDamagePercentage: 5
-    OutcomingDamagePercentage: 7
-    displayslot: 5
+    type: 'eye_of_ender'
+    displayname: '&c&lDragon Ascpect'
+    appliedlore: '&f&lItemSkin: &c&lDragon Ascpect'
+    skintype: 'sword'
+    IncomingDamagePercentageReduced: 5
+    OutcomingDamagePercentage: 500
+    displayslot: 12
+    lore:
+    - '&a&nGive You 500x more damage'
+    - '&6&lPrice: &e200M'
+  crown:
+    type: 'eye_of_ender'
+    displayname: '&5&lCrown Of Death'
+    appliedlore: '&f&lItemSkin: &5&lCrown Of Death'
+    skintype: 'chestplate'
+    IncomingDamagePercentageReduced: 100
+    OutcomingDamagePercentage: 5
+    displayslot: 13
+    lore:
+    - '&a&nReduce 100x of damage'
+    - '&6&lPrice: &e30M'

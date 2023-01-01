@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.config.GetSkins;
+import com.kammoun.main.main;
 
 public class is implements CommandExecutor {
 
@@ -21,6 +22,15 @@ public class is implements CommandExecutor {
 				GetSkins gs = new GetSkins();
 				p.openInventory(gs.getSkins());
 				
+			}
+			else if(cmd.equalsIgnoreCase("reload")) {
+				GetSkins gs = new GetSkins();
+				gs.reloadFile();
+				p.sendMessage("§aItemSkins Config file Has been reloaded!");
+				
+			}
+			else if(cmd.equalsIgnoreCase("list")) {
+				p.sendMessage("List: " + main.getinstance().skins);
 			}
 		}
 		
